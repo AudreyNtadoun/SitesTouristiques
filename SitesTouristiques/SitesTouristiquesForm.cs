@@ -49,6 +49,7 @@ namespace SitesTouristiques
         Font enteteFont;
         Font titreFont;
         Font detailFont;
+        Font progFont;
 
         float xFloat;
         float yFloat;
@@ -64,6 +65,9 @@ namespace SitesTouristiques
 
         int indiceSiteInterger;
         string detailSiteString;
+
+        string progStr; 
+        DateTime date;
 
         int n = 8;
 
@@ -91,9 +95,10 @@ namespace SitesTouristiques
 
             // Definition des polices pour l'entete, le titre  et les lignes
 
-            enteteFont = new Font("Calibri", 16.0F, FontStyle.Bold);
+            enteteFont = new Font("Calibri", 20.0F, FontStyle.Bold);
             titreFont = new Font("Calibri", 14.0F, FontStyle.Bold);
             detailFont = new Font("Calibri", 11.0F);
+            progFont = new Font("Calibri", 12);
 
             hauteurPoliceEnteteFloat = enteteFont.GetHeight();
             hauteurPoliceTitreFloat = enteteFont.GetHeight();
@@ -101,14 +106,17 @@ namespace SitesTouristiques
 
             enteteString = "Les differents sites touristiques - Merveilles et Audrey";
             largeurTitreFloat = e.Graphics.MeasureString(enteteString, enteteFont).Width;
+            xFloat = (e.PageBounds.Width - largeurTitreFloat) / 2;
+            xFloat = e.MarginBounds.X;
 
             titreString = "Liste des sites";
 
-            // Position initiale du crayon : Coin supérieur gauche à l'intérieur des marges
-            xFloat = (e.PageBounds.Width - largeurTitreFloat) / 2;
-            e.Graphics.DrawString(enteteString, enteteFont, Brushes.Black, xFloat, yFloat);
-            xFloat = e.MarginBounds.X;
+            RectangleF rectangle = new RectangleF(xFloat, yFloat, largeurTitreFloat, enteteFont.Height);
+            e.Graphics.DrawRectangle(Pens.Pink, Rectangle.Round(rectangle));
+            e.Graphics.DrawString(enteteString, enteteFont, Brushes.MediumVioletRed, rectangle);
 
+
+           
             yFloat += hauteurPoliceEnteteFloat * 2.0F;
             e.Graphics.DrawString(titreString, titreFont, Brushes.Black, xFloat, yFloat);
 
@@ -125,10 +133,20 @@ namespace SitesTouristiques
                 detailSiteString = (indiceSiteInterger + 1) + space2 +
                                     sitesWebListBox.Items[indiceSiteInterger].ToString();
 
-                e.Graphics.DrawString(detailSiteString, detailFont, Brushes.Blue, xFloat, yFloat);
+                e.Graphics.DrawString(detailSiteString, detailFont, Brushes.Red, xFloat, yFloat);
 
                 yFloat += hauteurPoliceDetailFloat;
             }
+
+            yFloat += hauteurPoliceTitreFloat * 2.0F;
+            string progStr = "Siris x Kethup";
+            DateTime date = DateTime.Now;
+
+
+           progStr = "Siris x Kethup";
+           date = DateTime.Now;
+            e.Graphics.DrawString(progStr + ", " + " date = " + date.ToLongDateString(), progFont, Brushes.Black, xFloat, yFloat);
+
         }
 
         #endregion
